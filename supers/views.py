@@ -16,14 +16,15 @@ def supers_list(request):
             serializer = SuperSerializer(queryset, many=True)
             return Response(serializer.data)
         else:
-            custom_dictionary = {}
-            super_types = SuperType.objects.all()
-            for super_type in super_types:
-                supers = Super.objects.filter(super_type_id=super_type.id)
-                supers_serializer = SuperSerializer(supers, many=True)
-                custom_dictionary[super_type.type] = {
-                    "supers": supers_serializer.data
-                }
+            heroes = Super.objects.filter(super_type_id=1)
+            heroes_serializer = SuperSerializer(heroes, many=True)
+            villians = Super.objects.filter(super_type_id=2)
+            villians_serializer = SuperSerializer(villians, many=True)
+
+            custom_dictionary = {
+                "heroes": heroes_serializer.data,
+                "villians": villians_serializer.data
+            }
             return Response(custom_dictionary)
 
     elif request.method == 'POST':
